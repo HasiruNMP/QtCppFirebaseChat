@@ -2,6 +2,13 @@
 #define CHAT_H
 
 #include <QMainWindow>
+#include <QObject>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QtConcurrent/QtConcurrent>
+#include <QFuture>
+#include <QThread>
+#include <QThreadPool>
 
 namespace Ui {
 class Chat;
@@ -14,9 +21,24 @@ class Chat : public QMainWindow
 public:
     explicit Chat(QWidget *parent = nullptr);
     ~Chat();
+    bool chatOn;
+
+private slots:
+    void on_btnOpenChat_clicked();
+
+    void on_btnSendMsg_clicked();
 
 private:
     Ui::Chat *ui;
+
+    QNetworkAccessManager * networkMng;
+    QNetworkReply * networkReply;
+
+    void sendMsg();
+    void getMsg();
+    void checkUpdates();
+
+
 };
 
 #endif // CHAT_H
