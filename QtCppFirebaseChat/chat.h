@@ -1,13 +1,13 @@
 #ifndef CHAT_H
 #define CHAT_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
 class Chat;
 }
 
-class Chat : public QWidget
+class Chat : public QMainWindow
 {
     Q_OBJECT
 
@@ -17,9 +17,6 @@ public:
 
 private:
     Ui::Chat *ui;
-    void sendMsg();
-    void getNewMsg();
-    void refresh();
 };
 
 #endif // CHAT_H
