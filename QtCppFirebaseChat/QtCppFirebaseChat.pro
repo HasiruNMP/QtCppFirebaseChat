@@ -12,10 +12,12 @@ CONFIG += c++11
 
 SOURCES += \
     chat.cpp \
-    main.cpp
+    main.cpp \
+    receive.cpp
 
 HEADERS += \
-    chat.h
+    chat.h \
+    receive.h
 
 FORMS += \
     chat.ui

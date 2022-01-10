@@ -23,17 +23,22 @@ public:
     ~Chat();
     bool chatOn;
 
+    QNetworkAccessManager * netMngGet;
+    QNetworkReply * netRepGet;
+
 private slots:
     void on_btnOpenChat_clicked();
     void on_btnSendMsg_clicked();
     void on_btnLogout_clicked();
     void read();
 
+
 private:
     Ui::Chat *ui;
 
-    QNetworkAccessManager * networkMng;
-    QNetworkReply * networkReply;
+    QNetworkAccessManager * netMngMain;
+    QNetworkReply * netRepMain;
+    QNetworkReply * netRepSend;
 
     void sendMsg();
     void getMsg();

@@ -1,11 +1,20 @@
 #include "chat.h"
+#include "receive.h"
 
 #include <QApplication>
+#include <windows.h>
+#include <QThread>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Chat w;
-    w.show();
+
+    //Chat window;
+    //window.show();
+
+    receive test;
+    //Sleep(10000);
+    test.checkUpdates();
+
     return a.exec();
 }
