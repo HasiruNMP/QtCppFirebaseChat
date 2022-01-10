@@ -25,8 +25,9 @@ public:
 
 private slots:
     void on_btnOpenChat_clicked();
-
     void on_btnSendMsg_clicked();
+    void on_btnLogout_clicked();
+    void read();
 
 private:
     Ui::Chat *ui;
