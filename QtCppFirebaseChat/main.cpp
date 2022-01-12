@@ -13,8 +13,12 @@ int main(int argc, char *argv[])
     //window.show();
 
     receive test;
-    //Sleep(10000);
     test.checkUpdates();
+
+//    QFuture<void> future = QtConcurrent::run([=]() {
+//        receive updates;
+//        updates.checkUpdates();
+//    });
 
     return a.exec();
 }

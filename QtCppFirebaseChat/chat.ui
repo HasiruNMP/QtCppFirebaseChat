@@ -143,7 +143,7 @@
        <string>SEND</string>
       </property>
      </widget>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QListWidget" name="listMsgs">
       <property name="geometry">
        <rect>
         <x>15</x>

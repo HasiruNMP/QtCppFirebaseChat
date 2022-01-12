@@ -3,6 +3,7 @@
 
 receive::receive(QObject *parent) : QObject(parent)
 {
+
     netMngCheck = new QNetworkAccessManager(this);
     //netRepCheck = netMngCheck->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/counts.json")));
     //connect(netRepCheck, &QNetworkReply::readyRead, this, &receive::readMCount );
@@ -12,26 +13,35 @@ receive::receive(QObject *parent) : QObject(parent)
 
 receive::~receive()
 {
-    netMngCheck->deleteLater();
+    //netMngCheck->deleteLater();
 }
 
 void receive::checkUpdates()
 {
+    netRepCheck = netMngCheck->get(QNetworkRequest(QUrl("https://qfirenotes-default-rtdb.firebaseio.com/users/hasiru/notes.json")));
+    connect(netRepCheck, &QNetworkReply::readyRead, this, &receive::readMCount );
      qDebug() << "checking for updates";
-     getMsgs();
+     //getMsgs();
 }
 
 void receive::getMsgs()
 {
-    netRepCheck = netMngCheck->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/messages/1.json")));
-    connect(netRepCheck, &QNetworkReply::readyRead, this, &receive::readMCount );
-    Sleep(5000);
+    //netRepCheck = netMngCheck->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/messages/1.json")));
+    //connect(netRepCheck, &QNetworkReply::readyRead, this, &receive::readMCount );
+//    connect(netMngCheck, &QNetworkAccessManager::finished, [=](QNetworkReply *reply) {
+//        qDebug() << reply->readAll(); // You don't need QTextCodec!
+//        //reply->deleteLater();
+//        Sleep(1);
+//        netMngCheck->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/messages/1.json")));
+//    });
+    //Sleep(2000);
+    //checkUpdates();
 }
 
 void receive::readMCount()
 {
     qDebug() << netRepCheck->readAll();
-    checkUpdates();
+    //checkUpdates();
     //QByteArray netRepStr = netRepCheck->readAll();
     //qDebug() << netRepStr;
     //QString qstr = QString(netRepStr);

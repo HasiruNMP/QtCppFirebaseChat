@@ -25,6 +25,7 @@ private:
     QNetworkAccessManager * netMngCheck;
     QNetworkReply * netRepCheck;
 
+
 public slots:
     void readMCount();
 

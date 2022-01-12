@@ -1,6 +1,7 @@
 #include "chat.h"
 #include "ui_chat.h"
-#include "receive.h"
+//#include "send.h"
+//#include "receive.h"
 #include <windows.h>
 #include <QNetworkRequest>
 #include <QDebug>
@@ -15,9 +16,13 @@ Chat::Chat(QWidget *parent) : QMainWindow(parent), ui(new Ui::Chat)
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
 
-    netMngMain = new QNetworkAccessManager();
+    //netMngMain = new QNetworkAccessManager();
+    //netRepMain = netMngMain->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/messages/1.json")));
+    //connect(netRepMain, &QNetworkReply::readyRead, this, &Chat::read );
 
-    //updates.checkUpdates();
+    chatOn = true;
+    syncMethod = 1;
+
 }
 
 Chat::~Chat()
@@ -26,58 +31,75 @@ Chat::~Chat()
     netMngMain->deleteLater();
 }
 
-void Chat::sendMsg()
+void Chat::sync()
 {
-    QString urlP1{"https://qtfirebasechat-default-rtdb.firebaseio.com/messages/"};
-    QString urlP2{"2"};
-    QString urlP3{".json"};
-    QString url = urlP1+urlP2+urlP3;
+    if(chatOn==true){
 
-    QString newMsgText = ui->msgLineEdit->text();
-    QVariantMap newMsgVM;
-    newMsgVM["text"] = newMsgText;
-    newMsgVM["user"] = "Hasiru";
-    QJsonDocument newMsgJson = QJsonDocument::fromVariant(newMsgVM);
+        if(syncMethod==1){
+            getMsg();
+        }
+        else{
+            sendMsg2();
+        }
+    }
+}
 
-    QNetworkRequest newMsgReq((QUrl(url)));
-    newMsgReq.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/json"));
-    netMngMain->put(newMsgReq, newMsgJson.toJson());
-
-    ui->msgLineEdit->setText("");
-    getMsg();
+void Chat::showMsg(string msg, string user)
+{
+    Sleep(2000);
+    sync();
+    //QString newMsg = QString::fromStdString(msg+user);
+    //ui->listMsgs->addItem(newMsg);
 }
 
 void Chat::getMsg()
 {
+    ui->listMsgs->addItem("recieved a new message");
+    ui->listMsgs->scrollToBottom();
+    syncMethod=1;
+    //netRepMain = netMngMain->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/messages/1.json")));
+    //connect(netRepMain, &QNetworkReply::readyRead, this, &Chat::read );
+    //Sleep(3000);
+    showMsg("","");
 
-    ui->listWidget->addItem("test123");
-    ui->listWidget->scrollToBottom();
+}
+
+void Chat::sendMsg2()
+{
+    ui->listMsgs->addItem("sent a new message");
+    ui->listMsgs->scrollToBottom();
+    syncMethod=1;
+    //netRepMain = netMngMain->get(QNetworkRequest(QUrl("https://qtfirebasechat-default-rtdb.firebaseio.com/messages/1.json")));
+    //connect(netRepMain, &QNetworkReply::readyRead, this, &Chat::read );
+    //Sleep(3000);
+
 }
 
 void Chat::on_btnOpenChat_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+    //chatOn = true;
+    //Sleep(5000);
 
-    chatOn = true;
-    receive updates;
-    updates.checkUpdates();
-
-    QFuture<void> future = QtConcurrent::run([=]() {
-        //receive updates;
-        //updates.checkUpdates();
-    });
 }
 
 void Chat::on_btnSendMsg_clicked()
 {
-    sendMsg();
+    QFuture<void> future = QtConcurrent::run([=]() {
+        syncMethod=2;
+    });
 }
 
 void Chat::on_btnLogout_clicked()
 {
-    chatOn = false;
-    ui->stackedWidget->setCurrentIndex(0);
+    //chatOn = false;
+    //ui->stackedWidget->setCurrentIndex(0);
+    chatOn = true;
+    //syncMethod = 1;
+    //netMngMain = new QNetworkAccessManager();
+    sync();
 }
+
 
 void Chat::read()
 {
@@ -85,6 +107,8 @@ void Chat::read()
     qDebug() << netRepStr;
     QString qstr = QString(netRepStr);
     qDebug() << qstr;
+    sync();
 }
+
 
 
